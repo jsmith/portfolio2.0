@@ -17,8 +17,7 @@
         <Twitter class="icon" link="https://twitter.com/jacobsmith_1"></Twitter>
       </div>
     </div>
-    <div class="projects">
-      <!-- https://medium.com/flexbox-and-grids/how-to-create-horizontally-scrollable-sections-with-flexbox-60d860f539b2 -->
+    <!-- <div class="projects">
       <Project
         v-for="(project, i) in projects" 
         :key="i"
@@ -26,7 +25,8 @@
         v-bind="project"
       ></Project>
       <div class="flex-end-spacer"></div>
-    </div>
+    </div> -->
+    <Projects class="projects"></Projects>
   </div>
 </template>
 
@@ -34,6 +34,7 @@
 import Vue, { VueConstructor } from 'vue';
 import Stars from './components/Stars.vue';
 import Project from './components/Project.vue';
+import Projects from './components/Projects.vue';
 import GithubIcon from 'vue-material-design-icons/GithubCircle.vue';
 import Linkedin from 'vue-material-design-icons/Linkedin.vue';
 import Twitter from 'vue-material-design-icons/Twitter.vue';
@@ -71,6 +72,7 @@ export default Vue.extend({
     Linkedin: LinkIcon(Linkedin),
     Twitter: LinkIcon(Twitter),
     Project,
+    Projects,
   },
   data: () => ({
     projects,
@@ -79,7 +81,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-$foreground: #754444;
+$foreground: var(--primary);
 $background1: #f3f3f3;
 $background2: #f0f1ea;
 
@@ -105,8 +107,7 @@ body {
 .projects {
   display: flex; 
   overflow-x: scroll;
-  margin-top: 60px;
-  padding: 20px 0;
+  padding: 60px 50px;
 }
 
 .projects::-webkit-scrollbar {
@@ -165,21 +166,6 @@ body {
   letter-spacing: 4px;
 }
 
-@media (max-width : 500px) {
-  .title {
-    font-size: 35px;
-    height: 35px;
-  }
-
-  .sub-title {
-    font-size: 15px;
-  }
-
-  .text-foreground {
-    margin-top: -45px;
-  }
-}
-
 .material-design-icon, .material-design-icon__svg {
   height: 30px!important;
   width: 30px!important;
@@ -188,5 +174,27 @@ body {
 
 .icon + .icon {
   margin-left: 10px;
+}
+
+@media (max-width : 500px) {
+  .title {
+    font-size: 35px;
+    letter-spacing: 6px;
+    height: 35px;
+  }
+
+  .sub-title {
+    font-size: 13px;
+  }
+
+  .text-foreground {
+    margin-top: -45px;
+    margin-left: 3px;
+  }
+
+  .material-design-icon, .material-design-icon__svg {
+    height: 25px!important;
+    width: 25px!important;
+  }
 }
 </style>

@@ -40,6 +40,13 @@ export default createComponent({
   border-radius: 2px;
 }
 
+.container {
+  padding: 10px 16px;
+  height: 170px;
+  display: flex;
+  flex-direction: column;
+}
+
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
@@ -47,15 +54,8 @@ export default createComponent({
 .project-title {
   font-size: 40px;
   font-weight: bold;
-  font-weight: 300;
-  letter-spacing: 10px;
-}
-
-.container {
-  padding: 10px 16px;
-  height: 170px;
-  display: flex;
-  flex-direction: column;
+  font-weight: 400;
+  letter-spacing: 5px;
 }
 
 .links {
