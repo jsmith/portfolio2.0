@@ -77,7 +77,7 @@ $background: var(--secondary);
 
 .project-title {
   color: $foreground;
-  font-size: 25px;
+  font-size: 30px;
   font-weight: bold;
   font-weight: 400;
   letter-spacing: 5px;
