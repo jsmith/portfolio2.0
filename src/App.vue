@@ -177,6 +177,10 @@ body {
 }
 
 @media (max-width : 500px) {
+  #app {
+    margin-top: 40px;
+  }
+
   .title {
     font-size: 35px;
     letter-spacing: 6px;
