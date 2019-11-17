@@ -15,7 +15,7 @@
   },
   {
     name: 'Portfolio 1.0',
-    link: 'https://jacobsmith.me/porfolio',
+    link: 'https://jsmith.github.io/vuepress-theme-terminal',
     repo: 'https://github.com/jsmith/portfolio',
     description: 'My first portfolio site, built to mimic a terminal.',
     tags: 'Typescript,Vue',
