@@ -15,7 +15,7 @@
   },
   {
     name: 'Portfolio 1.0',
-    link: 'https://jacobmsith.me/porfolio',
+    link: 'https://jacobsmith.me/porfolio',
     repo: 'https://github.com/jsmith/portfolio',
     description: 'My first portfolio site, built to mimic a terminal.',
     tags: 'Typescript,Vue',
