@@ -8,7 +8,7 @@
   },
   {
     name: 'Portfolio 2.0',
-    link: 'https://jacobsmith.me',
+    link: 'https://jsmith.github.io',
     repo: 'https://github.com/jsmith/portfolio2.0',
     description: 'My second portfolio site (the one you\'re looking at right now).',
     tags: 'Typescript,Vue',
@@ -22,7 +22,7 @@
   },
   {
     name: 'Jacob\'s Text Magic',
-    link: 'https://jacobsmith.me/assembly',
+    link: 'https://jsmith.github.io/assembly',
     repo: 'https://github.com/jsmith/assembly',
     description: 'A simple online assembly language compiler with a debugger.',
     tags: 'Typescript,Vue',
