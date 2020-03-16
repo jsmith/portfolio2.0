@@ -11,6 +11,9 @@
   "dependencies": {
     "@vue/composition-api": "^0.3.2",
     "core-js": "^3.3.2",
+    "fp-ts": "^2.5.3",
+    "io-ts": "^2.1.2",
+    "tailwindcss": "^1.2.0",
     "vue": "^2.6.10",
     "vue-material-design-icons": "^4.1.0"
   },

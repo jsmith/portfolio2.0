@@ -1,45 +1,67 @@
 <template>
-  <div id="app">
+  <div class="c-primary font-mono h-screen pt-20 overflow-y-scroll">
+
     <stars></stars>
-    <div class="information">
-      <div class="title">
-        <div style="display: flex">
-          <div class="title-text text-background">Jacob Smith</div>
-        </div>
-        <div style="display: flex" class="text-foreground">
-          <div class="title-text">Jacob Smith</div>
-        </div>
-      </div>
-      <div class="sub-title">Software Engineering @ UNB</div>
-      <div style="margin-top: 10px" class="icons">
-        <GithubIcon class="icon" link="https://github.com/jsmith"></GithubIcon>
-        <Linkedin class="icon" link="https://linkedin.com/in/jacsmith21"></Linkedin>
-        <Twitter class="icon" link="https://twitter.com/jacobsmith_1"></Twitter>
+
+    <div class="mx-12 sm:mx-8">
+      <div class="name-title font-bold inline relative text-5xl sm:text-3xl">{{ portfolio.name }}</div>
+      <div class="tracking-widest-2 sm:text-sm">{{ portfolio.overviewText }}</div>
+      <div class="icons mt-2">
+        <GithubIcon :link="portfolio.socials.github"></GithubIcon>
+        <Linkedin class="ml-3" :link="portfolio.socials.linkedin"></Linkedin>
+        <Twitter class="ml-3" :link="portfolio.socials.twitter"></Twitter>
       </div>
     </div>
-    <!-- <div class="projects">
-      <Project
-        v-for="(project, i) in projects" 
+
+    <!-- Not sure why but mb-32 works the best for some reason. It ideally would be mb-8 -->
+    <div class="mx-12 mt-8 mb-32 flex flex-wrap">
+      <div 
+        class="project p-1 relative"
+        style="height: 350px; width: 350px"
+        v-for="(project, i) in portfolio.projects" 
         :key="i"
-        class="project"
-        v-bind="project"
-      ></Project>
-      <div class="flex-end-spacer"></div>
-    </div> -->
-    <Projects class="projects"></Projects>
+      >
+        <div 
+          class="h-full w-full shadow-2xl"
+          :class="{ 'bg-center bg-cover': !project.stretch }"
+          :style="{ 
+            'background-image': `url(${project.imageUrl})`, 
+            'background-size': project.stretch ? '100% 100%' : '',
+          }"
+        ></div>
+        <div class="absolute invisible inset-0 project-information m-8 p-2 flex flex-col shadow-xl">
+          <div class="text-2xl tracking-widest">{{ project.name }}</div>
+          <div class="mt-1 text-xs">
+            <div 
+              v-for="tag in project.tags"
+              :key="tag"
+              class="project-tag select-none inline-block rounded-full mb-1 mr-1 px-3 py-1"
+            >
+              {{ tag }}
+            </div>
+          </div>
+          <div class="mt-2">{{ project.description }}</div>
+          <div class="flex-grow"></div>
+          <a class="project-link" :href="project.link" target="_blank">$ start $WEBSITE</a>
+          <a class="project-link" :href="project.repo" target="_blank">$ start $REPOSITORY</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { VueConstructor } from 'vue';
 import Stars from './components/Stars.vue';
-import Project from './components/Project.vue';
-import Projects from './components/Projects.vue';
 import GithubIcon from 'vue-material-design-icons/GithubCircle.vue';
 import Linkedin from 'vue-material-design-icons/Linkedin.vue';
 import Twitter from 'vue-material-design-icons/Twitter.vue';
-import { createComponent } from '@vue/composition-api';
+import { createComponent, ref } from '@vue/composition-api';
 import projects from './assets/projects';
+import { PortfolioType, Portfolio } from './models';
+import { PathReporter } from 'io-ts/lib/PathReporter';
+import { pipe } from 'fp-ts/lib/pipeable';
+import { fold, left } from 'fp-ts/lib/Either';
 
 const LinkIcon = (icon: any) => Vue.extend({
   name: icon.name + 'Link',
@@ -63,20 +85,51 @@ const LinkIcon = (icon: any) => Vue.extend({
 
 // TODO
 // 1. Google analytics
+// Grab GitHub stars information
 
-export default Vue.extend({
+export default createComponent({
   name: 'app',
   components: {
     Stars,
     GithubIcon: LinkIcon(GithubIcon),
     Linkedin: LinkIcon(Linkedin),
     Twitter: LinkIcon(Twitter),
-    Project,
-    Projects,
   },
-  data: () => ({
-    projects,
-  }),
+  setup() {
+    const emptyPorfolio: Portfolio = {
+      name: '',
+      overviewText: '',
+      socials: {
+        github: '',
+        linkedin: '',
+        twitter: '',
+      },
+      projects: [],
+    };
+
+    const portfolio = ref(emptyPorfolio);
+
+    fetch('https://raw.githubusercontent.com/jsmith/portfolio-content/master/portfolio.json').then(async (res) => {
+      const json = await res.json();
+      const result = PortfolioType.decode(json);
+      pipe(result, fold(
+      (e) => {
+        PathReporter.report(left(e)).forEach((error) => {
+          // tslint:disable-next-line:no-console
+          console.error(error);
+        });
+      },
+      (value) => {
+        portfolio.value = value;
+      },
+    ));
+    });
+
+    return {
+      portfolio,
+      projects,
+    };
+  },
 });
 </script>
 
@@ -85,85 +138,53 @@ $foreground: var(--primary);
 $background1: #f3f3f3;
 $background2: #f0f1ea;
 
+.project:hover > .project-information {
+  visibility: visible;
+  background-color: $background1;
+}
+
+.project-tag {
+  background: var(--secondary);
+  opacity: 80;
+}
+
+.project-link {
+  // text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    color: #b11212;
+  }
+}
+
 html {
   background: radial-gradient(ellipse at bottom, $background2 0%, $background1 100%);
 }
 
-#app {
-  height: 100vh;
-  margin: 100px 0;
-  color: $foreground;
-  font-family: 'lato',sans-serif;
-}
-
-body {
-  margin: 0;
-}
-
-.information {
-  margin: 0 50px;
-}
-
-.projects {
-  display: flex; 
-  overflow-x: scroll;
-  padding: 60px 50px;
-}
-
-.projects::-webkit-scrollbar {
-  display: none;
-}
-
-.project:first-child {
-  margin-left: 50px;
-}
-
-.flex-end-spacer {
-  flex: 0 0 50px;
-}
-
-.project {
-  background: $background1;
-  z-index: 100;
-  position: relative;
-}
-
-.project + .project {
-  margin-left: 20px;
-}
-
-.center-horizontal {
-  display: flex;
-  justify-content: center;
-}
-
-.title-text {
-  font-weight: bold;
-  display: inline;
-}
-
-.text-background {
-  color: transparent;
-  background: #efb5b7;
-  max-height: 30px;
-}
-
-.text-foreground {
-  margin-top: -58px;
-  margin-left: 5px;
-}
-
-.title {
-  display: flex;
-  flex-direction: column;
-  font-weight: 300;
-  font-size: 50px;
+.name-title {
+  // Must match margin-left below
   letter-spacing: 10px;
-}
 
-.sub-title {
-  margin-top: 5px;
-  letter-spacing: 4px;
+  &::before {
+    content: "";
+    background: var(--secondary);
+
+    // Make it stretch out to the full size of the parent
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    // So that the text is on top
+    z-index: -1;
+
+    // So that the box goes at the bottom
+    margin-top: 7%;
+
+    // Must match letter spacing above
+    margin-left: -10px;
+  }
 }
 
 .material-design-icon, .material-design-icon__svg {
@@ -172,30 +193,7 @@ body {
   color: $foreground;
 }
 
-.icon + .icon {
-  margin-left: 10px;
-}
-
 @media (max-width : 500px) {
-  #app {
-    margin-top: 40px;
-  }
-
-  .title {
-    font-size: 35px;
-    letter-spacing: 6px;
-    height: 35px;
-  }
-
-  .sub-title {
-    font-size: 13px;
-  }
-
-  .text-foreground {
-    margin-top: -45px;
-    margin-left: 3px;
-  }
-
   .material-design-icon, .material-design-icon__svg {
     height: 25px!important;
     width: 25px!important;

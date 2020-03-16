@@ -1,6 +1,8 @@
-﻿export default [
+﻿// TODO delete
+
+export default [
   {
-    name: 'Vusic',
+    name: 'DAWG',
     link: 'https://dawg.dev',
     repo: 'https://github.com/dawg/vusic',
     description: 'A Digital Audio Workstation built using the web!',

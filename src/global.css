@@ -1,4 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --primary: #754444;
   --secondary: #efb5b7;
+}
+
+.tracking-widest-2 {
+  letter-spacing: 0.2em;
+}
+
+.c-primary {
+  color: var(--primary);
+}
+
+.c-secondary {
+  color: var(--primary);
+}
+
+.bg-primary {
+  color: var(--primary);
+}
+
+.bg-secondary {
+  color: var(--primary);
 }
