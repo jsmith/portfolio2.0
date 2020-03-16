@@ -57,7 +57,6 @@ import GithubIcon from 'vue-material-design-icons/GithubCircle.vue';
 import Linkedin from 'vue-material-design-icons/Linkedin.vue';
 import Twitter from 'vue-material-design-icons/Twitter.vue';
 import { createComponent, ref } from '@vue/composition-api';
-import projects from './assets/projects';
 import { PortfolioType, Portfolio } from './models';
 import { PathReporter } from 'io-ts/lib/PathReporter';
 import { pipe } from 'fp-ts/lib/pipeable';
@@ -127,7 +126,6 @@ export default createComponent({
 
     return {
       portfolio,
-      projects,
     };
   },
 });

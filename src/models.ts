@@ -1,5 +1,3 @@
-// https://raw.githubusercontent.com/jsmith/portfolio-content/master/content.json
-
 import * as t from 'io-ts';
 
 export const SocialsType = t.type({
