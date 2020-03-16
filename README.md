@@ -7,5 +7,5 @@
 ```
 npm i
 npm run serve # development
-npm run build & npm run deploy # deploy
+npm run deploy # this builds AND deploys
 ```
