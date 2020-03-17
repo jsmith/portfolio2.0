@@ -21,7 +21,7 @@ export const ProjectOptionalType = t.partial({
   stretch: t.boolean,
 });
 
-export const ProjectType = t.union([ProjectRequiredType, ProjectOptionalType]);
+export const ProjectType = t.intersection([ProjectRequiredType, ProjectOptionalType]);
 
 export type Project = t.TypeOf<typeof ProjectType>;
 

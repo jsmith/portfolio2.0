@@ -5,6 +5,8 @@
 :root {
   --primary: #754444;
   --secondary: #efb5b7;
+  --background1: #f3f3f3;
+  --background2: #f0f1ea;
 }
 
 .tracking-widest-2 {
